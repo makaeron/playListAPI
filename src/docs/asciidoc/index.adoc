@@ -21,3 +21,11 @@ include::{snippets}/Delete-Song/http-request.adoc[]
 
 .response
 include::{snippets}/Delete-Song/http-response.adoc[]
+
+Get PlayList Song
+
+.request
+include::{snippets}/Get-Song/http-request.adoc[]
+
+.response
+include::{snippets}/Get-Song/http-response.adoc[]

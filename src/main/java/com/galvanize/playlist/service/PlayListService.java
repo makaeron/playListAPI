@@ -50,6 +50,13 @@ public class PlayListService {
         }
         return new PlayListDto(playListEntity.getName(), playListEntity.getSongs());
     }
+
+    public PlayListDto getPlayList(String name) {
+        var playListEntity = this.playListRepository.findAll().stream()
+                .filter(entity -> entity.getName().equalsIgnoreCase(name))
+                .findAny().orElse(null);
+        return new PlayListDto(playListEntity.getName(), playListEntity.getSongs());
+    }
 }
 
 

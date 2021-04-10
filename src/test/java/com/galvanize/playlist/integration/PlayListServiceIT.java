@@ -144,6 +144,33 @@ public class PlayListServiceIT {
                 .andDo(document("Delete-Song", responseFields(
                         fieldWithPath("name").description("Play list name"),
                         fieldWithPath("songs").description("Play list songs name")
-                )));;
+                )));
+    }
+
+    /**
+     * Given a playlist has songs
+     * When retrieve the playlist
+     * Then see the songs on the playlist
+     */
+    @Test
+    public void  getPlayListSongsTest() throws Exception {
+        var songs = new ArrayList<String>();
+        songs.add("Song Name");
+        var playListDto = new PlayListDto("First Playlist", songs);
+        mockMvc.perform(post("/playlist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(playListDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("message").value("Playlist created successfully!"));
+
+        mockMvc.perform(get("/playlist/First Playlist")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("First Playlist"))
+                .andExpect(jsonPath("songs[0]").value("Song Name"))
+                .andDo(document("Get-Song", responseFields(
+                        fieldWithPath("name").description("Play list name"),
+                        fieldWithPath("songs").description("Play list songs name")
+                )));
     }
 }

@@ -104,6 +104,20 @@ public class PlayListServiceTests {
                 .isEqualTo(new PlayListDto(playListEntity.getName(), playListEntity.getSongs()));
     }
 
+    @Test
+    public void getPlayListTest() {
+        var playListName = "First Playlist";
+        var songs = new ArrayList<String>();
+        songs.add("First song");
+        var playListEntity = new PlayListEntity(playListName, songs);
+        when(playListRepository.findAll()).thenReturn(List.of(playListEntity));
+
+        var playListDto = playListService.getPlayList(playListName);
+
+        assertThat(playListDto)
+                .isEqualTo(new PlayListDto(playListEntity.getName(), playListEntity.getSongs()));
+    }
+
 }
 
 

@@ -50,5 +50,9 @@ public class PlayListServiceController {
         return this.playListService.deleteSong(playlistName, songName);
     }
 
+    @GetMapping("/playlist/{name}")
+    public PlayListDto getPlayList(@PathVariable String name) {
+        return this.playListService.getPlayList(name);
+    }
 
 }
