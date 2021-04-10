@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
@@ -39,4 +40,21 @@ public class PlayListServiceTests {
         assertThat(result).isEqualTo("Playlist created successfully!");
     }
 
-}
+
+        @Test
+        public void duplicatePlayList() {
+            var songs = new ArrayList<String>();
+            var playListDto = new PlayListDto("First Playlist", songs);
+            var playListEntity = new PlayListEntity("First Playlist", songs);
+            when(playListRepository.findAll()).thenReturn(List.of(playListEntity));
+            var result =  playListService.savePlayList(playListDto);
+            verify(playListRepository, times(0)).save(
+                    new PlayListEntity("First Playlist", songs)
+            );
+            assertThat(result).isEqualTo("Playlist is already exist");
+        }
+
+
+    }
+
+
