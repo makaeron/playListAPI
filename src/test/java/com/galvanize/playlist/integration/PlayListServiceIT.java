@@ -27,6 +27,9 @@ public class PlayListServiceIT {
 
     @Autowired
     ObjectMapper mapper;
+    //When a playlist is created with a name
+    //Then a confirmation is returned that it was successful.
+    //And the playlist is empty.
 
     @Test
     public void createPlayList() throws Exception {
@@ -41,6 +44,30 @@ public class PlayListServiceIT {
                 .andDo(document("Post-PlayList", responseFields(
                         fieldWithPath("message").description("Play list created or not message")
                 )));
+    }
+    //When a playlist is created with existing name
+    //Then a message is returned that it was unsuccessful.
+
+    @Test
+    public void duplicatePlayList() throws Exception{
+        var songs = new ArrayList<String>();
+        var playListDto = new PlayListDto("First Playlist", songs);
+
+        mockMvc.perform(post("/playlist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(playListDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("message").value("Playlist created successfully!"));
+
+
+        mockMvc.perform(post("/playlist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(playListDto)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("message").value("Playlist is already exist"))
+                .andDo(document("Post-PlayList", responseFields(
+                        fieldWithPath("message").description("Play list created or not message"))));
+
     }
 
 }
