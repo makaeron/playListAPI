@@ -119,4 +119,25 @@ public class PlayListServiceIT {
                         fieldWithPath("songs").description("Play list songs name")
                 )));
     }
+    /**
+     * Given a playlist has songs
+     * When a song is removed
+     * Then the playlist have one less song
+     */
+
+    @Test
+    public void removeSong() throws Exception {
+        var songs = new ArrayList<String>();
+        songs.add("Song Name");
+        var playListDto = new PlayListDto("First Playlist", songs);
+        mockMvc.perform(post("/playlist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(playListDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("message").value("Playlist created successfully!"));
+        mockMvc.perform(delete("/playlist/First PlayList/Song Name")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(playListDto)))
+                .andExpect(status().isOk());
+    }
 }

@@ -24,8 +24,7 @@ public class PlayListService {
             } else {
                 return "Playlist is already exist";
             }
-        }
-        else {
+        } else {
             return "Playlist name should not be empty!";
         }
     }
@@ -40,4 +39,18 @@ public class PlayListService {
         }
         return new PlayListDto(playListEntity.getName(), playListEntity.getSongs());
     }
+
+    public PlayListDto deleteSong(String playlistName, String songName) {
+        var playListEntity = this.playListRepository.findAll().stream()
+                .filter(entity -> entity.getName().equalsIgnoreCase(playlistName))
+                .findAny().orElse(null);
+        if (playListEntity != null) {
+            playListEntity.getSongs().remove(songName);
+            this.playListRepository.save(playListEntity);
+        }
+        return new PlayListDto(playListEntity.getName(), playListEntity.getSongs());
+    }
 }
+
+
+

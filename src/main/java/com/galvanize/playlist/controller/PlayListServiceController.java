@@ -23,7 +23,7 @@ public class PlayListServiceController {
     public ResponseEntity<?> postPlayList(@RequestBody PlayListDto playlist) {
         var result = this.playListService.savePlayList(playlist);
         var status = HttpStatus.CREATED;
-        switch (result){
+        switch (result) {
             case "Playlist created successfully!":
                 status = HttpStatus.CREATED;
                 break;
@@ -42,6 +42,12 @@ public class PlayListServiceController {
     @ResponseStatus(HttpStatus.OK)
     public PlayListDto postSong(@PathVariable String playlistName, @RequestBody String songName) {
         return this.playListService.addSong(playlistName, songName);
+    }
+
+    @DeleteMapping("/playlist/{playlistName}/{songName}")
+    @ResponseStatus(HttpStatus.OK)
+    public PlayListDto deleteSong(@PathVariable String playlistName, @PathVariable String songName){
+        return this.playListService.deleteSong(playlistName, songName);
     }
 
 

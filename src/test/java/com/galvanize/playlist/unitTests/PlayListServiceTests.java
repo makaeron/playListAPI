@@ -86,6 +86,24 @@ public class PlayListServiceTests {
                 .isEqualTo(new PlayListDto(playListEntity.getName(), playListEntity.getSongs()));
     }
 
+    @Test
+    public void removeSongToPlayListTest() {
+        var playListName = "First Playlist";
+        var songs = new ArrayList<String>();
+        songs.add("First song");
+        var playListEntity = new PlayListEntity(playListName, songs);
+        when(playListRepository.findAll()).thenReturn(List.of(playListEntity));
+
+        var removeSong = "First Song";
+        var playListDto = playListService.deleteSong(playListName, removeSong);
+
+        songs.remove(removeSong);
+        verify(playListRepository).save(new PlayListEntity("First Playlist", songs)
+        );
+        assertThat(playListDto)
+                .isEqualTo(new PlayListDto(playListEntity.getName(), playListEntity.getSongs()));
+    }
+
 }
 
 
