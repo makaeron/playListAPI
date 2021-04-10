@@ -1,6 +1,7 @@
 package com.galvanize.playlist.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class PlayListEntity {
 
     @Id
