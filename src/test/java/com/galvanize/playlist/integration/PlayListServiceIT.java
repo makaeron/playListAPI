@@ -29,10 +29,12 @@ public class PlayListServiceIT {
 
     @Autowired
     ObjectMapper mapper;
-    //When a playlist is created with a name
-    //Then a confirmation is returned that it was successful.
-    //And the playlist is empty.
 
+    /**
+     * When a playlist is created with a name
+     * Then a confirmation is returned that it was successful.
+     * And the playlist is empty.
+     */
     @Test
     public void createPlayList() throws Exception {
         var songs = new ArrayList<String>();
@@ -47,11 +49,13 @@ public class PlayListServiceIT {
                         fieldWithPath("message").description("Play list created or not message")
                 )));
     }
-    //When a playlist is created with existing name
-    //Then a message is returned that it was unsuccessful.
 
+    /**
+     * When a playlist is created with existing name
+     * Then a message is returned that it was unsuccessful.
+     */
     @Test
-    public void duplicatePlayList() throws Exception{
+    public void duplicatePlayList() throws Exception {
         var songs = new ArrayList<String>();
         var playListDto = new PlayListDto("First Playlist", songs);
 
@@ -61,7 +65,6 @@ public class PlayListServiceIT {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("message").value("Playlist created successfully!"));
 
-
         mockMvc.perform(post("/playlist")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(playListDto)))
@@ -69,7 +72,22 @@ public class PlayListServiceIT {
                 .andExpect(jsonPath("message").value("Playlist is already exist"))
                 .andDo(document("Post-PlayList", responseFields(
                         fieldWithPath("message").description("Play list created or not message"))));
+    }
 
+    /**
+     * When a playlist is created without a name
+     * Then a message is returned that a name is required.
+     */
+    @Test
+    public void playListNameEmptyTest() throws Exception {
+        var songs = new ArrayList<String>();
+        var playListDto = new PlayListDto("", songs);
+
+        mockMvc.perform(post("/playlist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(playListDto)))
+                .andExpect(status().isPartialContent())
+                .andExpect(jsonPath("message").value("Playlist name should not be empty!"));
     }
 
 }
