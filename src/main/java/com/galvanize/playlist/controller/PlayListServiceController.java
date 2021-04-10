@@ -38,10 +38,10 @@ public class PlayListServiceController {
         return response;
     }
 
-    @PostMapping("/playlist/{playlistName}/song")
-    @ResponseStatus(HttpStatus.CREATED)
-    public void postSong(@PathVariable String playlistName, @RequestBody String songName) {
-
+    @PutMapping("/playlist/{playlistName}/song")
+    @ResponseStatus(HttpStatus.OK)
+    public PlayListDto postSong(@PathVariable String playlistName, @RequestBody String songName) {
+        return this.playListService.addSong(playlistName, songName);
     }
 
 

@@ -67,6 +67,25 @@ public class PlayListServiceTests {
         assertThat(result).isEqualTo("Playlist name should not be empty!");
     }
 
+    @Test
+    public void addSongToPlayListTest() {
+        var playListName = "First Playlist";
+        var songs = new ArrayList<String>();
+        songs.add("First song");
+        var playListEntity = new PlayListEntity(playListName, songs);
+        when(playListRepository.findAll()).thenReturn(List.of(playListEntity));
+
+        var secondSong = "Second Song";
+        var playListDto = playListService.addSong(playListName, secondSong);
+
+        songs.add(secondSong);
+        verify(playListRepository).save(
+                new PlayListEntity("First Playlist", songs)
+        );
+        assertThat(playListDto)
+                .isEqualTo(new PlayListDto(playListEntity.getName(), playListEntity.getSongs()));
+    }
+
 }
 
 

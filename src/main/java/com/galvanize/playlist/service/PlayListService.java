@@ -30,4 +30,14 @@ public class PlayListService {
         }
     }
 
+    public PlayListDto addSong(String playListName, String song) {
+        var playListEntity = this.playListRepository.findAll().stream()
+                .filter(entity -> entity.getName().equalsIgnoreCase(playListName))
+                .findAny().orElse(null);
+        if (playListEntity != null) {
+            playListEntity.getSongs().add(song);
+            this.playListRepository.save(playListEntity);
+        }
+        return new PlayListDto(playListEntity.getName(), playListEntity.getSongs());
+    }
 }

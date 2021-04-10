@@ -108,10 +108,15 @@ public class PlayListServiceIT {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("message").value("Playlist created successfully!"));
 
-        mockMvc.perform(post("/playlist/First Playlist/song")
+        mockMvc.perform(put("/playlist/First Playlist/song")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("First Song"))
-                .andExpect(status().isCreated())
-                .andDo(document("Post-Song"));
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("First Playlist"))
+                .andExpect(jsonPath("songs[0]").value("First Song"))
+                .andDo(document("Put-Song", responseFields(
+                        fieldWithPath("name").description("Play list name"),
+                        fieldWithPath("songs").description("Play list songs name")
+                )));
     }
 }
