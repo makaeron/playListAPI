@@ -32,7 +32,7 @@ public class PlayListServiceTests {
         var playListEntity = new PlayListEntity("First Playlist", songs);
         when(playListRepository.save(any())).thenReturn(playListEntity);
 
-        var result =  playListService.savePlayList(playListDto);
+        var result = playListService.savePlayList(playListDto);
 
         verify(playListRepository).save(
                 new PlayListEntity("First Playlist", songs)
@@ -40,21 +40,33 @@ public class PlayListServiceTests {
         assertThat(result).isEqualTo("Playlist created successfully!");
     }
 
-
-        @Test
-        public void duplicatePlayList() {
-            var songs = new ArrayList<String>();
-            var playListDto = new PlayListDto("First Playlist", songs);
-            var playListEntity = new PlayListEntity("First Playlist", songs);
-            when(playListRepository.findAll()).thenReturn(List.of(playListEntity));
-            var result =  playListService.savePlayList(playListDto);
-            verify(playListRepository, times(0)).save(
-                    new PlayListEntity("First Playlist", songs)
-            );
-            assertThat(result).isEqualTo("Playlist is already exist");
-        }
-
-
+    @Test
+    public void duplicatePlayList() {
+        var songs = new ArrayList<String>();
+        var playListDto = new PlayListDto("First Playlist", songs);
+        var playListEntity = new PlayListEntity("First Playlist", songs);
+        when(playListRepository.findAll()).thenReturn(List.of(playListEntity));
+        var result = playListService.savePlayList(playListDto);
+        verify(playListRepository, times(0)).save(
+                new PlayListEntity("First Playlist", songs)
+        );
+        assertThat(result).isEqualTo("Playlist is already exist");
     }
+
+    @Test
+    public void  playListNameEmptyTest() {
+        var songs = new ArrayList<String>();
+        var playListDto = new PlayListDto("", songs);
+
+        var result = playListService.savePlayList(playListDto);
+
+        verify(playListRepository, times(0)).findAll();
+        verify(playListRepository, times(0)).save(
+                new PlayListEntity("First Playlist", songs)
+        );
+        assertThat(result).isEqualTo("Playlist name should not be empty!");
+    }
+
+}
 
 

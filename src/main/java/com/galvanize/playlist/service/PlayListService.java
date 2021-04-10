@@ -15,16 +15,19 @@ public class PlayListService {
     }
 
     public String savePlayList(PlayListDto playListDto) {
-        var existingEntity = this.playListRepository.findAll().stream().filter(entity -> entity.getName().equalsIgnoreCase(playListDto.getName())).findAny().orElse(null);
-        if (existingEntity == null) {
-            var result = this.playListRepository.save(
-                    new PlayListEntity(playListDto.getName(), playListDto.getSongs()));
-            return result != null ? "Playlist created successfully!" : "Playlist creation failed!";
+        if (!playListDto.getName().isEmpty()) {
+            var existingEntity = this.playListRepository.findAll().stream().filter(entity -> entity.getName().equalsIgnoreCase(playListDto.getName())).findAny().orElse(null);
+            if (existingEntity == null) {
+                var result = this.playListRepository.save(
+                        new PlayListEntity(playListDto.getName(), playListDto.getSongs()));
+                return result != null ? "Playlist created successfully!" : "Playlist creation failed!";
+            } else {
+                return "Playlist is already exist";
+            }
         }
-        else{
-            return "Playlist is already exist";
+        else {
+            return "Playlist name should not be empty!";
         }
     }
-
 
 }

@@ -24,7 +24,18 @@ public class PlayListServiceController {
     @PostMapping("playlist")
     public ResponseEntity<?> postPlayList(@RequestBody PlayListDto playlist) {
         var result = this.playListService.savePlayList(playlist);
-        var status = result.equalsIgnoreCase("Playlist created successfully!") ? HttpStatus.CREATED : HttpStatus.CONFLICT;
+        var status = HttpStatus.CREATED;
+        switch (result){
+            case "Playlist created successfully!":
+                status = HttpStatus.CREATED;
+                break;
+            case "Playlist is already exist":
+                status = HttpStatus.CONFLICT;
+                break;
+            case "Playlist name should not be empty!":
+                status = HttpStatus.PARTIAL_CONTENT;
+                break;
+        }
         var response = new ResponseEntity<>(Collections.singletonMap("message", result), status);
         return response;
     }

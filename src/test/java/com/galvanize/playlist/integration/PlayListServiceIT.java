@@ -71,7 +71,7 @@ public class PlayListServiceIT {
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("message").value("Playlist is already exist"))
                 .andDo(document("Post-PlayList", responseFields(
-                        fieldWithPath("message").description("Play list created or not message"))));
+                        fieldWithPath("message").description("Play list already exist message"))));
     }
 
     /**
@@ -87,7 +87,9 @@ public class PlayListServiceIT {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(playListDto)))
                 .andExpect(status().isPartialContent())
-                .andExpect(jsonPath("message").value("Playlist name should not be empty!"));
+                .andExpect(jsonPath("message").value("Playlist name should not be empty!"))
+                .andDo(document("Post-PlayList", responseFields(
+                        fieldWithPath("message").description("Play list name required message"))));
     }
 
 }
