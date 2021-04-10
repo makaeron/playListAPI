@@ -92,4 +92,26 @@ public class PlayListServiceIT {
                         fieldWithPath("message").description("Play list name required message"))));
     }
 
+    /**
+     * Given a playlist
+     * When a song is added
+     * Then the playlist have one more song
+     */
+    @Test
+    public void addSongToPlayListTest() throws Exception {
+        var songs = new ArrayList<String>();
+        var playListDto = new PlayListDto("First Playlist", songs);
+
+        mockMvc.perform(post("/playlist")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(playListDto)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("message").value("Playlist created successfully!"));
+
+        mockMvc.perform(post("/playlist/First Playlist/song")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("First Song"))
+                .andExpect(status().isCreated())
+                .andDo(document("Post-Song"));
+    }
 }

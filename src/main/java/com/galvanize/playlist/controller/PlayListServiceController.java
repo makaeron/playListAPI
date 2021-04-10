@@ -4,11 +4,9 @@ import com.galvanize.playlist.dto.PlayListDto;
 import com.galvanize.playlist.service.PlayListService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.Collections;
 import java.util.Map;
 
@@ -38,6 +36,12 @@ public class PlayListServiceController {
         }
         var response = new ResponseEntity<>(Collections.singletonMap("message", result), status);
         return response;
+    }
+
+    @PostMapping("/playlist/{playlistName}/song")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void postSong(@PathVariable String playlistName, @RequestBody String songName) {
+
     }
 
 
