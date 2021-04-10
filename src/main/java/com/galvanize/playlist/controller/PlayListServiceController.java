@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 public class PlayListServiceController {
 
@@ -19,7 +22,8 @@ public class PlayListServiceController {
 
     @PostMapping("playlist")
     @ResponseStatus(HttpStatus.CREATED)
-    public String postPlayList(@RequestBody PlayListDto playlist) {
-        return this.playListService.savePlayList(playlist);
+    public Map<String,String> postPlayList(@RequestBody PlayListDto playlist) {
+        var result = this.playListService.savePlayList(playlist);
+        return Collections.singletonMap("message", result);
     }
 }
