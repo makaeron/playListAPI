@@ -138,6 +138,12 @@ public class PlayListServiceIT {
         mockMvc.perform(delete("/playlist/First PlayList/Song Name")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(playListDto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("name").value("First Playlist"))
+                .andExpect(jsonPath("songs.length()").value(0))
+                .andDo(document("Delete-Song", responseFields(
+                        fieldWithPath("name").description("Play list name"),
+                        fieldWithPath("songs").description("Play list songs name")
+                )));;
     }
 }

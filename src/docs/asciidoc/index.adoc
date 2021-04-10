@@ -5,3 +5,19 @@ include::{snippets}/Post-PlayList/http-request.adoc[]
 
 .response
 include::{snippets}/Post-PlayList/http-response.adoc[]
+
+Update PlayList Song
+
+.request
+include::{snippets}/Put-Song/http-request.adoc[]
+
+.response
+include::{snippets}/Put-Song/http-response.adoc[]
+
+Delete PlayList Song
+
+.request
+include::{snippets}/Delete-Song/http-request.adoc[]
+
+.response
+include::{snippets}/Delete-Song/http-response.adoc[]
