@@ -26,3 +26,12 @@ docker run --name playlist-pg --network playlist-network -e POSTGRES_PASSWORD=op
 docker run --name playlist-networkpg --network playlist-network -e PORT=8080 -e SPRING_PROFILES_ACTIVE=dockerpg -p 9002:8080 -d playlistservice:dev
 ```
 
+###Heroku Commands
+```
+heroku login
+heroku create
+heroku git:remote -a
+heroku container:login
+heroku container:push web
+heroku container:release web
+```
